@@ -5,6 +5,7 @@ const fs = require('fs');
 
 app.use(express.urlencoded({ extended: false }));
 //it is used to extract(parse) incoming data and put it into req.body
+//he { extended: false } option indicates whether the values in the URL-encoded data should be parsed using the querystring library (when false) or the qs library (when true)
 
 app.get('/restaurants', function (req, res) {
     const htmlFilePath = path.join(__dirname, 'views', 'restaurants.html');
@@ -22,9 +23,26 @@ app.get('/recommend', function (req, res) {
 //agar aap 1 se zyada app.get() lga dooge ek hi server mein toh upar wala execute hoga neeche wala execute nai hoga.neeche wala app.get() redundant ho jayega 
 // because code top to bottom execute hota hai
 //lekin agar HTTP method alag hai toh same hi path ke lie 2 alag alag route bna skte hai
-app.post('/recommend', function (req, res)){
 
-}
+
+
+app.post('/recommend', function (req, res) {
+    const restaurant = req.body;
+    const filePath = path.join(__dirname, 'data', 'restaurants.json');
+    const fileData = fs.readFileSync(filePath);
+    const storedRestaurants = JSON.parse(fileData);
+
+    storedRestaurants.push(restaurant);
+    fs.writeFileSync(filePath, JSON.stringify(storedRestaurants));
+    // res.send mein hum data recieved vgera nai daalege(jaise phle daala tha) because agar user uss page ko reload krde toh data wapis submit na ho jaye(uss se data 2 baar submit ho jayega) kyunki uss case mein path /recommended hi rahega aur wohi URL ko reload karoge toh hmesha POST request hi hogi already entered data ki .(if confused watch L-360)
+    //isliye hmne redirect hi kr dia ab confirm page ko reload krke toh /confirm wala route with get request(joki neeche hai) wo chalega and confirm.html display hoga
+    res.redirect('/confirm');
+})
+
+
+
+
+
 app.get('/confirm', function (req, res) {
     const htmlFilePath = path.join(__dirname, 'views', 'confirm.html');
     res.sendFile(htmlFilePath);

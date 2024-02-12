@@ -52,7 +52,8 @@
   </aside>
   <main>
     <h1>Share your favorite restaurant!</h1>
-    <form>
+    <form action="/recommend" method="POST">
+      <!--Together, these attributes define the behavior of the form: when it's submitted, the data entered by the user will be sent to the /recommend route on the server using the HTTP POST method. The server can then process the form data and respond accordingly.-->
       <div class="form-control">
         <label for="name">Restaurant name</label>
         <input type="text" id="name" name="name" required />
