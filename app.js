@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const fs = require('fs');
+
+app.use(express.urlencoded({ extended: false }));
+//it is used to extract(parse) incoming data and put it into req.body
 
 app.get('/restaurants', function (req, res) {
     const htmlFilePath = path.join(__dirname, 'views', 'restaurants.html');
@@ -15,6 +19,12 @@ app.get('/recommend', function (req, res) {
     const htmlFilePath = path.join(__dirname, 'views', 'recommend.html');
     res.sendFile(htmlFilePath);
 });
+//agar aap 1 se zyada app.get() lga dooge ek hi server mein toh upar wala execute hoga neeche wala execute nai hoga.neeche wala app.get() redundant ho jayega 
+// because code top to bottom execute hota hai
+//lekin agar HTTP method alag hai toh same hi path ke lie 2 alag alag route bna skte hai
+app.post('/recommend', function (req, res)){
+
+}
 app.get('/confirm', function (req, res) {
     const htmlFilePath = path.join(__dirname, 'views', 'confirm.html');
     res.sendFile(htmlFilePath);
