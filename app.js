@@ -14,7 +14,8 @@ app.use(express.static('public'));
 //yahan pr script aur css waali files(joki public mein hai) static hai because wo server side side code se dyanmically change nai ho rhi
 
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: false })
+);
 //it is used to extract(parse) incoming data and put it into req.body
 //he { extended: false } option indicates whether the values in the URL-encoded data should be parsed using the querystring library (when false) or the qs library (when true)
 
