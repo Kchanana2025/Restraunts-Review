@@ -49,6 +49,9 @@ app.get('/restaurants/:id', function (req, res) {//in this function we can use t
         if (restaurant.id === restaurantId) {
             return res.render('restaurant-detail', { restaurant: restaurant });
         }
+        //ab yaha hm kuch aur bhi return krskte thee to show ki page exist ni krta
+        //by default method is to show 404 page
+        res.render('404');
     }
 
     // return jab bhi call krte hain toh uske aage jo bhi saman hota hai as object return ho jata hai(which is not important here) kyunki ye function kahi call hi nai hua
