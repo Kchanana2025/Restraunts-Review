@@ -1,13 +1,18 @@
+const fs = require('fs');
 const path = require('path');
+
 const express = require('express');
-const app = express();
 const uuid = require('uuid');
 
+const resData = require('./util/restaurant-data');
+//path is relative to app.js
+
+const app = express();
 
 app.set('views', path.join(__dirname, 'views'))//1st parameter is fixed and second paramter is path where u wish to store ejs files
 app.set('view engine', 'ejs');//yehi likhna hota by default
 
-const fs = require('fs');
+
 
 
 app.use(express.static('public'));
@@ -29,21 +34,20 @@ app.get('/restaurants', function (req, res) {
 
     // res.sendFile(htmlFilePath);//resSendFile Automatically sets the Content-Type 
     // response header field file mein dekh ke basically ab browser pe html apne aap render ho jayegi alag se btana ni padhega ki ye html hai.
-    const filePath = path.join(__dirname, 'data', 'restaurants.json');
-    const fileData = fs.readFileSync(filePath);
-    const storedRestaurants = JSON.parse(fileData);
 
-    res.render('restaurants', { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants });
+    const storedRestaurants = resData.getStoredRestaurants();
+
+    res.render('restaurants', {
+        numberOfRestaurants: storedRestaurants.length,
+        restaurants: storedRestaurants
+    });
 });
 
 app.get('/restaurants/:id', function (req, res) {//in this function we can use that particular contrete value of id for that particular restaurant 
 
     const restaurantId = req.params.id;//ye hai uss id ki value
     //now we can load data of our restaurant have that particular id from restaurants.json file
-
-    const filePath = path.join(__dirname, 'data', 'restaurants.json');
-    const fileData = fs.readFileSync(filePath);
-    const storedRestaurants = JSON.parse(fileData);
+    const storedRestaurants = resData.getStoredRestaurants();
 
     for (const restaurant of storedRestaurants) {
         if (restaurant.id === restaurantId) {
@@ -77,12 +81,11 @@ app.post('/recommend', function (req, res) {
     const restaurant = req.body;
     restaurant.id = uuid.v4();//uuid object pr jab hum v4 method call krege toh ye hmesha unique value dega joki string hogi
     //javascript mein agar koi object ke corresponding particular property exist nai krti aur aap phir bhi object.that_property kr dete ho,toh wo property exist krne lag jati hai. 
-    const filePath = path.join(__dirname, 'data', 'restaurants.json');
-    const fileData = fs.readFileSync(filePath);
-    const storedRestaurants = JSON.parse(fileData);
+    const restaurants = resData.getStoredRestaurants();
 
-    storedRestaurants.push(restaurant);
-    fs.writeFileSync(filePath, JSON.stringify(storedRestaurants));
+    restaurants.push(restaurant);
+
+    resData.storedRestaurants(restaurants);
     // res.send mein hum data recieved vgera nai daalege(jaise phle daala tha) because agar user uss page ko reload krde toh data wapis submit na ho jaye(uss se data 2 baar submit ho jayega) kyunki uss case mein path /recommended hi rahega aur wohi URL ko reload karoge toh hmesha POST request hi hogi already entered data ki .(if confused watch L-360)
     //isliye hmne redirect hi kr dia ab confirm page ko reload krke toh /confirm wala route with get request(joki neeche hai) wo chalega and confirm.html display hoga
     res.redirect('/confirm');//basically kisi nye page pe aana zruri hai after the form is submitted(taki user galti se dobara submission of data na krde)
