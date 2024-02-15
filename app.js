@@ -1,6 +1,8 @@
 const path = require('path');
 const express = require('express');
 const app = express();
+const uuid = require('uuid');
+
 
 app.set('views', path.join(__dirname, 'views'))//1st parameter is fixed and second paramter is path where u wish to store ejs files
 app.set('view engine', 'ejs');//yehi likhna hota by default
@@ -33,6 +35,30 @@ app.get('/restaurants', function (req, res) {
 
     res.render('restaurants', { numberOfRestaurants: storedRestaurants.length, restaurants: storedRestaurants });
 });
+
+app.get('/restaurants/:id', function (req, res) {//in this function we can use that particular contrete value of id for that particular restaurant 
+
+    const restaurantId = req.params.id;//ye hai uss id ki value
+    //now we can load data of our restaurant have that particular id from restaurants.json file
+
+    const filePath = path.join(__dirname, 'data', 'restaurants.json');
+    const fileData = fs.readFileSync(filePath);
+    const storedRestaurants = JSON.parse(fileData);
+
+    for (const restaurant of storedRestaurants) {
+        if (restaurant.id === restaurantId) {
+            return res.render('restaurant-detail', { restaurant: restaurant });
+        }
+    }
+
+    // return jab bhi call krte hain toh uske aage jo bhi saman hota hai as object return ho jata hai(which is not important here) kyunki ye function kahi call hi nai hua
+    //return jab call krte hai toh aage ka code execute nai hota
+
+});
+
+
+
+
 app.get('/recommend', function (req, res) {
     // const htmlFilePath = path.join(__dirname, 'views', 'recommend.html');
     // res.sendFile(htmlFilePath);
@@ -46,6 +72,8 @@ app.get('/recommend', function (req, res) {
 
 app.post('/recommend', function (req, res) {
     const restaurant = req.body;
+    restaurant.id = uuid.v4();//uuid object pr jab hum v4 method call krege toh ye hmesha unique value dega joki string hogi
+    //javascript mein agar koi object ke corresponding particular property exist nai krti aur aap phir bhi object.that_property kr dete ho,toh wo property exist krne lag jati hai. 
     const filePath = path.join(__dirname, 'data', 'restaurants.json');
     const fileData = fs.readFileSync(filePath);
     const storedRestaurants = JSON.parse(fileData);
