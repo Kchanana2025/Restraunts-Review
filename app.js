@@ -51,7 +51,7 @@ app.get('/restaurants/:id', function (req, res) {//in this function we can use t
         }
         //ab yaha hm kuch aur bhi return krskte thee to show ki page exist ni krta
         //by default method is to show 404 page
-        res.render('404');
+        res.status(404).render('404');
     }
 
     // return jab bhi call krte hain toh uske aage jo bhi saman hota hai as object return ho jata hai(which is not important here) kyunki ye function kahi call hi nai hua
@@ -107,6 +107,17 @@ app.get('/about', function (req, res) {
     //res.sendFile(htmlFilePath);//resSendFile Automatically sets the Content-Type response header field file mein dekh ke basically ab browser pe html apne aap render ho jayegi alag se btana ni padhega ki ye html hai.
     res.render('about');
 });
+
+//middlewares are something jo hr incoming request ko bhav dete hai
+app.use(function (req, res) {//this will kick in whenever we have a request that is not handled by any of the above routes
+    res.status(400).render('404');//.status() helps uss set a status(lecture-375)
+});
+
+
+app.use(function (error, req, res, next) {//hmien ye function 4 parametes ke sath hi likhna hota hai taki express ko smjh aa ske ki ye special error handling function hai(basically express ki built in feature hoti hai  server pe pe koi error aaye usko handle krne ke lie)
+    res.status(500).render('500');
+});
+
 app.listen(3000);
 
 //chronology:sbse phle app.use() middleware ke through public folder access hota hai
