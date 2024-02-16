@@ -9,7 +9,7 @@ function getStoredRestaurants() {
 }
 
 function storedRestaurants(storableRestaurants) {
-    fs.writeFileSync(filePath, JSON.stringify(restaurants));
+    fs.writeFileSync(filePath, JSON.stringify(storableRestaurants));
 }
 module.exports = {
     getStoredRestaurants: getStoredRestaurants,//key_name(which will be used in other file where this function is exported):pointer to the function reffered
