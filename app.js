@@ -37,7 +37,7 @@ app.use(function (error, req, res, next) {//hmien ye function 4 parametes ke sat
     res.status(500).render('500');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 
 //chronology:sbse phle app.use() middleware ke through public folder access hota hai
 //agar us se browser ki request poori nai hoti toh phir get requests pe aata hai cantrol aur phir
