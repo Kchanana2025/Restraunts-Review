@@ -5,15 +5,13 @@ const express = require('express');
 //path is relative to app.js
 const defaultRoutes = require('./routes/default');
 const restaurantRoutes = require('./routes/restaurant');
-
+//jab relative nahi hota i.e absolute tab project folder ke respect mein path path daalte hain . wo path . se start nahi hota.
+//main project ke folder ko root kehte hain
 
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'))//1st parameter is fixed and second paramter is path where u wish to store ejs files
 app.set('view engine', 'ejs');//yehi likhna hota by default
-
-
-
 
 app.use(express.static('public'));
 //jab bhi koi http request aati hai toh ye check krta hai ki kahi ye static files toh ni mang rhi ye http reuqest?if yes toh express public folder mein dekh leta hai agar wo static file exist krti hai toh aur send kr deta hai browser ko.  

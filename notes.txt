@@ -1,0 +1,16 @@
+1)
+<link rel="stylesheet" href="/styles/restaurants.css">
+aise likhne se ye path directly domain name ke baad ajaega
+
+
+2)
+<link rel="stylesheet" href="styles/restaurants.css">
+aur aise likhne se ye path current path ke aage substitute ho jayega 
+
+3)
+const restaurantRoutes = require('./routes/restaurant');
+ye ek alag tarika hai ek file ke andr dusri file ko request krne ka
+this is relative path only
+it means ki ek folder upar jao aur aur router folder ke andr restaurant naam ki file hogi (Bss ye likhne se uska saman hmm iss file mein use kr skte hai)
+
+

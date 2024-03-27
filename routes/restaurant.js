@@ -11,11 +11,33 @@ router.get('/restaurants', function (req, res) {
     // res.sendFile(htmlFilePath);//resSendFile Automatically sets the Content-Type 
     // response header field file mein dekh ke basically ab browser pe html apne aap render ho jayegi alag se btana ni padhega ki ye html hai.
 
+    let order = req.query.order;
+    let nextOrder = 'desc';
+
+
+    if (order != 'asc' && order != 'desc') {
+        order = 'asc'
+    }
+    if (order === 'desc') {
+        nextOrder = 'asc'
+    }
     const storedRestaurants = resData.getStoredRestaurants();
+
+    storedRestaurants.sort(function (resA, resB) {
+        // browser iss function ko chalata hai aur hr 2 restaurants ko iss function mein daalta hai
+        if (order == 'asc' && resA.name > resB.name)
+            return 1            //return 1 means swap ,return -1 means do nothing with those restaurants
+        else if (order == 'desc' && resB.name > resA.name) {
+            return 1;
+        }
+        return -1
+    });
+    //ascending order mein sort honge ye restaurants
 
     res.render('restaurants', {
         numberOfRestaurants: storedRestaurants.length,
-        restaurants: storedRestaurants
+        restaurants: storedRestaurants,
+        nextOrder: nextOrder
     });
 });
 
