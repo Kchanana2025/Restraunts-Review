@@ -10,7 +10,7 @@ const restaurantRoutes = require('./routes/restaurant');
 
 const app = express();
 
-app.set('views', path.join(__dirname, 'views'))//1st parameter is fixed and second paramter is path where u wish to store ejs files
+app.set('views', path.join(__dirname, 'views'));;;;//1st parameter is fixed and second paramter is path where u wish to store ejs files
 app.set('view engine', 'ejs');//yehi likhna hota by default
 
 app.use(express.static('public'));
@@ -41,4 +41,4 @@ app.listen(process.env.PORT || 3000);
 
 //chronology:sbse phle app.use() middleware ke through public folder access hota hai
 //agar us se browser ki request poori nai hoti toh phir get requests pe aata hai cantrol aur phir
-//bhi agar browser ki http request nai poori hoti toh request terminate ho jati hai 
+//bhi agar browser ki http request nai poori hoti toh request terminate ho jati hai
