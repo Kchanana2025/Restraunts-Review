@@ -11,18 +11,22 @@
   <%- include('includes/header')%>
     <%- include('includes/side-drawer')%>
       <main>
-        <h1>Recommended restaurants</h1>
+        <h1>
+          <% if (searchQuery) { %>
+            Search results for "<%= searchQuery %>"
+              <% } else { %>
+                Recommended restaurants
+                <% } %>
+        </h1>
         <% if(numberOfRestaurants===0) {%>
           <p>Unfortunately,we have no restaurants yet-may be start recommending some?</p>
           <%} else{%>
             <p>We found <%=numberOfRestaurants%> restaurants</p>
 
             <form action="/restaurants" method="GET">
-              <!-- ussi page ko hi hm reload krna chahte hain islie hmne/restaurants -->
-              <!-- likh dia and hm kahi uss data store bhi nai krna chhate isliye request bhi GET krdi -->
-
+              <input type="hidden" name="search" value="<%= searchQuery %>">
               <input type="hidden" value="<%=nextOrder%>" name="order">
-              <button class="btn">Change Order</button>
+              <button class="btn">Sort results</button>
 
             </form>
 

@@ -22,22 +22,28 @@ router.get('/restaurants', function (req, res) {
         nextOrder = 'asc'
     }
     const storedRestaurants = resData.getStoredRestaurants();
+    const searchQuery = req.query.search ? req.query.search.toLowerCase() : null;
+    let filteredRestaurants = storedRestaurants;
 
-    storedRestaurants.sort(function (resA, resB) {
-        // browser iss function ko chalata hai aur hr 2 restaurants ko iss function mein daalta hai
-        if (order == 'asc' && resA.name > resB.name)
-            return 1            //return 1 means swap ,return -1 means do nothing with those restaurants
-        else if (order == 'desc' && resB.name > resA.name) {
-            return 1;
-        }
-        return -1
+    if (searchQuery) {
+        filteredRestaurants = storedRestaurants.filter(restaurant =>
+            restaurant.name.toLowerCase().includes(searchQuery)
+        );
+    }
+
+    // Sort the filtered results
+    filteredRestaurants.sort(function (resA, resB) {
+        if (order === 'asc' && resA.name > resB.name) return 1;
+        else if (order === 'desc' && resB.name > resA.name) return 1;
+        return -1;
     });
-    //ascending order mein sort honge ye restaurants
 
+    // Render the results with filtered and sorted data
     res.render('restaurants', {
-        numberOfRestaurants: storedRestaurants.length,
-        restaurants: storedRestaurants,
-        nextOrder: nextOrder
+        numberOfRestaurants: filteredRestaurants.length,
+        restaurants: filteredRestaurants,
+        nextOrder: nextOrder, 
+        searchQuery: searchQuery
     });
 });
 
