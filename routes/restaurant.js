@@ -92,7 +92,7 @@ router.get('/confirm', function (req, res) {
     res.render('confirm');
 });
 router.get('/', function (req, res) {
-    const htmlFilePath = path.join(__dirname, 'views', 'index.html');
+    const htmlFilePath = path.join(__dirname, 'views', 'index');
     res.sendFile(htmlFilePath);
 });
 
