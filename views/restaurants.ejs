@@ -7,6 +7,7 @@
 
 </head>
 
+
 <body>
   <%- include('includes/header')%>
     <%- include('includes/side-drawer')%>
@@ -24,9 +25,16 @@
             <p>We found <%=numberOfRestaurants%> restaurants</p>
 
             <form action="/restaurants" method="GET">
+              <input type="hidden" name="order" value="<%= order %>" id="orderInput">              
               <input type="hidden" name="search" value="<%= searchQuery %>">
-              <input type="hidden" value="<%=nextOrder%>" name="order">
-              <button class="btn">Sort results</button>
+              <div class="dropdown">
+                <button type="button" class="dropbtn">Sort <i class="fa-solid fa-arrow-down-wide-short"></i></button>
+                <div class="dropdown-content">
+                  <button type="submit" onclick="setOrder('name')">By Name</button>
+                  <button type="submit" onclick="setOrder('cuisine')">By Cuisine</button>
+                  <button type="submit" onclick="setOrder('address')">By Location</button>
+                </div>
+              </div>
 
             </form>
 
@@ -39,5 +47,9 @@
             <%}%>
       </main>
 </body>
-
+<script>
+  function setOrder(order) {
+    document.getElementById('orderInput').value = order;
+  }
+</script>
 </html>
