@@ -56,6 +56,30 @@ main p {
   list-style: none;
 }
 
+.search-form{
+  display: flex;
+}
+.search-form input[type="text"] {
+  padding: 7px 10px; /* Add padding */
+  border-radius: 8px 0 0 8px;
+  font-size: 1rem;
+  margin-right: 0;
+  background-color: transparent;
+  border: 2px solid rgb(240, 167, 9);
+  color: rgb(139, 100, 8);
+  max-width: 200px;
+}
+
+.search-form button{
+  font-size: 1rem;
+    margin-left: 0;
+    background-color: rgb(240, 167, 9); /* Background color for button */
+    border: none; /* Remove default border */
+    border-radius: 0 8px 8px 0; /* Rounded corners on right side */
+    cursor: pointer; /* Show pointer on hover */
+    padding: 8px 12px; /* Add padding */
+}
+
 #main-header .nav-item {
   margin-left: 1rem;
 }
@@ -149,6 +173,6 @@ main p {
 
 @media (min-width: 80rem) {
   #main-header {
-    padding: 0 15%;
+    padding: 0 8%;
   }
 }
