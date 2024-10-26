@@ -16,6 +16,21 @@
         </p>
         <div class="restaurant-actions">
             <a href="/restaurants/<%=restaurant.id%>">View Restaurant</a>
+            <a onclick="copyToClipboard()" title="Copy Link"><i class="fa-solid fa-link"></i> Share</a>
         </div>
     </article>
 </li>
+<script>
+
+    function copyToClipboard() {
+        navigator.clipboard.writeText('<%= `https://restraunts-review.onrender.com/restaurants/${restaurant.id}` %>').then(() => Toastify({
+            text: "Link copied to clipboard!",
+            duration: 3000,
+            gravity: "bottom",
+            style: {
+                fontSize: "1rem",
+                background: "linear-gradient(to right, rgb(240, 167, 9), rgb(202, 158, 62))",
+            },
+        }).showToast())
+    }
+</script>
